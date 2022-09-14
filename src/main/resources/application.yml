@@ -1,0 +1,5 @@
+#百度地图 AK
+baidu:
+  ak: KDWmWOFHDLmZjYgjOY7WcqwjfIU5f8Vd
+  url: http://api.map.baidu.com/geocoding/v3/?output=json&location=showLocation
+  rurl: http://api.map.baidu.com/reverse_geocoding/v3/?output=json&coordtype=BD09&pois=1

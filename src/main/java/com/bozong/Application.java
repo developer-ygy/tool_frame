@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author yinguoyu
  * @date 2022/9/13
- * @des
+ * @des 用于制作距离闹钟
 **/
 @SpringBootApplication
 public class Application {
