@@ -46,16 +46,16 @@ public class EsUtil {
             nativeSearchQuery.setMaxResults(pageSize);
             // 1、缓存第一页符合搜索条件的数据
             SearchScrollHits<T> searchScrollHits = elasticsearchRestTemplate.searchScrollStart(Constants.scrollTimeInMillis, nativeSearchQuery, objectClass, IndexCoordinates.of(indexName));
+            if (searchScrollHits == null){
+                log.info("searchScrollHits 为null");
+                return new ArrayList<>();
+            }
             String scrollId = searchScrollHits.getScrollId();
             //统计下耗时
             long start = System.currentTimeMillis();
             //记录翻页次数
             int scrollTime=1;
             scrollIds.add(scrollId);
-            if (searchScrollHits == null){
-                log.info("searchScrollHits 为null");
-                return new ArrayList<>();
-            }
 
             List<T> resultList = new ArrayList<>();
             //2、判断searchScrollHits中是否有命中数据，如果为空，则表示已将符合查询条件的数据全部遍历完毕
@@ -106,14 +106,14 @@ public class EsUtil {
             nativeSearchQuery.setMaxResults(10000);
             // 缓存第一页符合搜索条件的数据
             SearchScrollHits<T> searchScrollHits = elasticsearchRestTemplate.searchScrollStart(Constants.scrollTimeInMillis, nativeSearchQuery, objectClass, IndexCoordinates.of(indexName));
-            String scrollId = searchScrollHits.getScrollId();
-            //统计下耗时
-            long start = System.currentTimeMillis();
-            scrollIds.add(scrollId);
             if (searchScrollHits == null){
                 log.info("searchScrollHits 为null");
                 return new ArrayList<>();
             }
+            String scrollId = searchScrollHits.getScrollId();
+            //统计下耗时
+            long start = System.currentTimeMillis();
+            scrollIds.add(scrollId);
             List<T> resultList = new ArrayList<>();
             //将第一页的数据放入结果集
             for (SearchHit<T> demo : searchScrollHits.getSearchHits()){
